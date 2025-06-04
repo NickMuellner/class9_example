@@ -16,8 +16,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Docker Compose
-        run: docker compose -f local-compose.yaml up -d
+      - name: Install dependencies
+        run: npm setup:dev
 
       - name: Wait for services to be healthy
         run: |
