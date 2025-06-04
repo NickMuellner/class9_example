@@ -1,0 +1,40 @@
+services:
+  database:
+    image: postgres:17.4-alpine3.21
+    ports:
+      - "127.0.0.1:5432:5432"
+    env_file:
+      - .env
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  migrations:
+    build: .
+    command: sh -c "npm ci --save-dev && npm run migrate"
+    depends_on:
+      - database
+    env_file:
+      - .env
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  web:
+    build: .
+    ports:
+      - "127.0.0.1:5000:5000"
+    depends_on:
+      - database
+      - migrations
+    env_file:
+      - .env
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '10m'
+        max-file: '3'

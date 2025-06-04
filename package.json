@@ -1,0 +1,39 @@
+{
+  "name": "evaluated-exercise-9-example",
+  "version": "0.1.0",
+  "description": "The evaluated-exercise 9 of continuous integration",
+  "main": "index.js",
+  "scripts": {
+    "build": "dotenv -e .env -- tsc -p tsconfig.json",
+    "start": "dotenv -e .env -- node ./dist/index.js",
+    "migrate": "dotenv -e .env -- npx prisma migrate deploy",
+    "prisma:generate": "dotenv -e .env -- npx prisma generate",
+    "cleanup:dev": "npx rimraf dist && npx rimraf node_modules && npm install",
+    "setup:dev": "dotenv -e .env.local -- npm run setdown:dev && npm run cleanup:dev && docker compose --file local-compose.yaml up --detach && npm run prisma:generate:dev && npm run migrate:dev",
+    "setdown:dev": "dotenv -e .env.local -- docker compose --file local-compose.yaml down",
+    "start:dev": "dotenv -e .env.local -- nodemon ./app/index.ts",
+    "migrate:dev": "dotenv -e .env.local -- npx prisma migrate dev",
+    "prisma:generate:dev": "dotenv -e .env.local -- npx prisma generate",
+    "test": "dotenv -e .env.local -- npx jest"
+  },
+  "author": "Lukas Aichbauer <lukas@devopscycle.com> (https://devopscycle.com)",
+  "license": "MIT",
+  "keywords": [],
+  "prisma": {
+    "schema": "./app/database/prisma/schema.prisma"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.4.0",
+    "fastify": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "dotenv-cli": "^8.0.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.9",
+    "@prisma/client": "^6.4.0",
+    "prisma": "^6.4.0",
+    "fastify": "^5.2.1",
+    "typescript": "^5.7.3"
+  }
+}
