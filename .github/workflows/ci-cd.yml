@@ -17,11 +17,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Docker Compose
-        run: docker compose -f docker-compose.yml up -d
+        run: docker compose -f local-compose.yaml up -d
 
       - name: Wait for services to be healthy
         run: |
-          docker compose -f docker-compose.yml ps
+          docker compose -f local-compose.yaml ps
           sleep 10
 
       - name: Setup Node.js
@@ -39,7 +39,7 @@ jobs:
         run: npm test
 
       - name: Stop Docker Compose
-        run: docker compose -f docker-compose.yml down
+        run: docker compose -f local-compose.yaml down
 
   build-and-push:
     runs-on: ubuntu-latest
